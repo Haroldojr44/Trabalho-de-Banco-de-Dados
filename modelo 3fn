@@ -1,0 +1,85 @@
+-- Domínios
+TIPOS_PROJETO    (id_tipo_projeto PK, descricao)
+STATUS_PROJETO   (id_status_projeto PK, descricao)
+STATUS_TAREFA    (id_status_tarefa PK, descricao)
+ESPECIALIZACOES  (id_especializacao PK, descricao)
+DEPARTAMENTOS    (id_departamento PK, nome_departamento)
+
+-- Pessoas
+COLABORADORES (
+  id_colaborador PK,
+  nome,
+  genero,           -- 'M' / 'F' / outro
+  id_departamento FK → DEPARTAMENTOS
+)
+
+GERENTES (
+  id_gerente PK,
+  nome,
+  email,
+  genero,
+  id_departamento FK → DEPARTAMENTOS
+)
+
+-- N:N especializações
+COLABORADOR_ESPECIALIZACAO (
+  id_colaborador FK,
+  id_especializacao FK,
+  PRIMARY KEY (id_colaborador, id_especializacao)
+)
+
+-- Projetos
+PROJETOS (
+  id_projeto PK,
+  nome_projeto,
+  id_tipo_projeto FK → TIPOS_PROJETO,
+  id_status_projeto FK → STATUS_PROJETO,
+  data_inicio DATE,
+  data_fim_prevista DATE,
+  data_fim_real DATE,
+  custo_estimado DECIMAL,
+  id_gerente FK → GERENTES
+)
+
+-- Projeto ↔ Departamento (N:N — pergunta h)
+PROJETO_DEPARTAMENTO (
+  id_projeto FK,
+  id_departamento FK,
+  PRIMARY KEY (id_projeto, id_departamento)
+)
+
+-- Tarefas
+TAREFAS (
+  id_tarefa PK,
+  id_projeto FK → PROJETOS,
+  nome_tarefa,
+  prazo_entrega DATE,
+  id_status_tarefa FK → STATUS_TAREFA,
+  data_conclusao DATE
+)
+
+-- Alocações de colaboradores em projetos
+ALOCACOES (
+  id_alocacao PK,
+  id_colaborador FK → COLABORADORES,
+  id_projeto FK → PROJETOS,
+  data_inicio DATE,
+  data_fim DATE
+)
+
+-- Registro granular de horas (permite semanal/mensal/anual)
+REGISTRO_HORAS (
+  id_registro PK,
+  id_alocacao FK → ALOCACOES,
+  data_registro DATE,
+  horas_trabalhadas DECIMAL
+)
+
+-- Lançamentos de custo real ao longo do tempo (pergunta i/d)
+LANCAMENTOS_CUSTO (
+  id_lancamento PK,
+  id_projeto FK → PROJETOS,
+  data_lancamento DATE,
+  valor DECIMAL,
+  descricao
+)
