@@ -1,0 +1,15 @@
+a) arrumei gerentes em minusculo, funcionou
+
+b) funciono
+
+c) mudei a tabela de qualificacoes que tavam com sintaxe errada, funcionou
+
+d) funcionou mas nao tem nenhum projeto com data 2026 (adicionar?)
+
+e) não funcionou, alterar (prazo_inicio) e (prazo_fim) para (inicio) e (fim)
+
+f) funcionou, ambos select deu a mesma coisa, mas ta certo
+
+faltou testar o resto 
+
+
